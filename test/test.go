@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
+	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -25,15 +27,36 @@ func test() {
 	}
 	defer videoFile.Close()
 
-	// Create a POST request with the video file
-	request, err := http.NewRequest("POST", url, videoFile)
+	// Create a buffer to store the request body
+	var requestBody bytes.Buffer
+	writer := multipart.NewWriter(&requestBody)
+
+	// Create the form file field
+	fileWriter, err := writer.CreateFormFile("file", "video.mp4")
+	if err != nil {
+		fmt.Println("Error creating form file:", err)
+		return
+	}
+
+	// Copy the file content to the form file field
+	_, err = io.Copy(fileWriter, videoFile)
+	if err != nil {
+		fmt.Println("Error copying file content:", err)
+		return
+	}
+
+	// Close the multipart writer
+	writer.Close()
+
+	// Create the HTTP request with the given body and Content-Type
+	request, err := http.NewRequest("POST", url, &requestBody)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		return
 	}
 
-	// Set the request header for the file upload
-	request.Header.Set("Content-Type", "multipart/form-data")
+	// Set the Content-Type header with the boundary parameter
+	request.Header.Set("Content-Type", writer.FormDataContentType())
 
 	// Make the request
 	client := &http.Client{}
