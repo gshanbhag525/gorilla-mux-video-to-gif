@@ -76,6 +76,11 @@ func main() {
 			return
 		}
 
+		// Allow the user to download the converted GIF file
+		w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s", baseName+".gif"))
+		w.Header().Set("Content-Type", "application/octet-stream")
+		http.ServeFile(w, r, outputGifPath)
+
 		fmt.Fprintf(w, "Video successfully converted to GIF.")
 	}).Methods("POST")
 
