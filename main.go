@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
 )
@@ -22,12 +23,16 @@ func main() {
 			return
 		}
 
-		file, _, err := r.FormFile("video")
+		file, handler, err := r.FormFile("video")
 		if err != nil {
 			http.Error(w, "Error retrieving the file", http.StatusBadRequest)
 			return
 		}
 		defer file.Close()
+
+		// Extract the filename
+		fileName := handler.Filename
+		fmt.Println("Uploaded file:", fileName)
 
 		// Save the uploaded file
 		uploadPath := "./uploads/"
@@ -37,8 +42,7 @@ func main() {
 			return
 		}
 
-		fileName := "uploaded_video.mp4"
-		filePath := uploadPath + fileName
+		filePath := filepath.Join(uploadPath, fileName)
 		out, err := os.Create(filePath)
 		if err != nil {
 			http.Error(w, "Error creating the file", http.StatusInternalServerError)
