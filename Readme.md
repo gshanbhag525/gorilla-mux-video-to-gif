@@ -1,6 +1,6 @@
-# Gorilla Mux Video to GIF Converter
+# 🎥➡️🖼️ Gorilla Mux Video to GIF Converter 🎥➡️🖼️
 
-This project utilizes the Gorilla Mux router for handling HTTP requests to convert video files to GIFs using FFmpeg. The application provides a simple API endpoint to upload a video file, process it with FFmpeg, and return the resulting GIF.
+This project utilizes the Gorilla Mux router for handling HTTP requests to convert video files to GIFs using FFmpeg. The application provides a simple API endpoint to upload a video file, process it with FFmpeg, and return the resulting GIF. The application is written in Golang
 
 ## Table of Contents
 
@@ -11,12 +11,12 @@ This project utilizes the Gorilla Mux router for handling HTTP requests to conve
 - [License](#license)
 
 
-### Installation
+## 🛠️ Installation 🛠️
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/gorilla-mux-video-to-gif.git
+git clone https://github.com/gshanbhag525/gorilla-mux-video-to-gif.git && 
 cd gorilla-mux-video-to-gif
 ```
 
@@ -38,7 +38,7 @@ go build
 ./gorilla-mux-video-to-gif
 ```
 
-### Usage
+## 🚀 Usage 🚀
 
 1. Ensure the application is running.
 
@@ -50,7 +50,7 @@ curl -X POST -F "file=@/path/to/your/video.mp4" http://localhost:8080/convert-to
 
 3. The server will process the video file and return a link to download the generated GIF.
 
-### Docker Container
+## 🐳 Docker Container 🐳
 
 To run the application in a Docker container:
 
@@ -67,11 +67,11 @@ docker run -p 8080:8080 gorilla-mux-video-to-gif
 
 3. Follow the usage instructions mentioned above.
 
-### Contributing
+## 🤝 Contributing 🤝
 
 If you'd like to contribute to this project, please follow the [contribution guidelines](Contributing.md).
 
 
-### License
+## 📝 License 📝
 
 This project is licensed under the [MIT License](LICENSE).
