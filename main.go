@@ -17,8 +17,9 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/convert-to-gif", func(w http.ResponseWriter, r *http.Request) {
-		// Parse the form data to get the file
-		err := r.ParseMultipartForm(10 << 20) // 10 MB limit
+		// Parse the form data to get the file with a 5GB limit
+		const maxUploadSize = 5 * 1024 * 1024 * 1024 // 5GB in bytes
+		err := r.ParseMultipartForm(maxUploadSize)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
