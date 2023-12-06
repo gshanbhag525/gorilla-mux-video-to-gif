@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -57,7 +58,17 @@ func main() {
 		}
 
 		// Convert the uploaded video to GIF
-		outputGifPath := "./output.gif"
+		// Save the uploaded file
+		outputPath := "./output/"
+		err = os.MkdirAll(outputPath, os.ModePerm)
+		if err != nil {
+			http.Error(w, "Error creating output directory", http.StatusInternalServerError)
+			return
+		}
+		// Replace the extension with .gif
+		baseName := strings.TrimSuffix(fileName, filepath.Ext(fileName))
+		outputGifPath := filepath.Join(outputPath, baseName+".gif")
+
 		err = convertVideoToGif(filePath, outputGifPath)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
